@@ -9,6 +9,7 @@ import {
   getPublications,
   getPublicationsQueryVariables,
 } from "../constants/lensConstants";
+import PostFeed from "../components/PostFeed";
 
 // 1. Need to get the lens profileId of whomever signedin
 // 2. Need to get a list of posts from the people they follow
@@ -44,5 +45,16 @@ export default function Home() {
     return publications;
   };
 
-  return <div className={styles.container}>Hello</div>;
+  return (
+    <div>
+      <div>Our Decentralized Blog!</div>
+      {!pubs ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          <PostFeed posts={pubs.data.publications.items}></PostFeed>
+        </div>
+      )}
+    </div>
+  );
 }
