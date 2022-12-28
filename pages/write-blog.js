@@ -1,5 +1,5 @@
-import WritePost from "../components/WriteBlog";
+import WritePost from "../components/WritePost";
 
-export default function WriteBlog() {
+export default function WriteBlog(props) {
   return <WritePost />;
 }

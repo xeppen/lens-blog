@@ -1,31 +1,22 @@
-import Head from "next/head";
-import Image from "next/image";
-import { getFollowing } from "../constants/lensConstants";
-import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
+import Metatags from "../components/Metatags";
+import PostFeed from "../components/PostFeed";
 import {
-  apolloClient,
+  getFollowing,
   getPublications,
   getPublicationsQueryVariables,
 } from "../constants/lensConstants";
-import PostFeed from "../components/PostFeed";
+import { useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
+import { useLensContext } from "../context/LensContext";
+import { apolloClient } from "../constants/lensConstants";
 
-// 1. Need to get the lens profileId of whomever signedin
-// 2. Need to get a list of posts from the people they follow
-
+// We start with at least Patrick's Posts
 let profileIdList = ["0x869c"];
 
-export default function Home() {
-  const [pubs, setPubs] = useState([]);
+export default function Home(props) {
+  const { profileId } = useLensContext();
   const { account } = useMoralis();
-
-  useEffect(() => {
-    getPublicationsList().then((publications) => {
-      console.log("publications: ", publications);
-      setPubs(publications);
-    });
-  }, []);
+  const [pubs, setPubs] = useState();
 
   const getPublicationsList = async () => {
     let followers;
@@ -45,14 +36,37 @@ export default function Home() {
     return publications;
   };
 
+  useEffect(() => {
+    if (account) {
+      getPublicationsList().then((publications) => {
+        setPubs(publications);
+      });
+    }
+  }, [account]);
+
   return (
-    <div>
-      <div>Our Decentralized Blog!</div>
-      {!pubs.data ? (
+    <main className="pt-24">
+      <Metatags
+        title="Home Page"
+        description="Get the latest publications on our site"
+      />
+      <div className="pl-2 pr-2">
+        <div className="p-2 m1 bg-sky-600 border text-white rounded  border-solid border-black">
+          <p>Our decentralized blogging platform!</p>
+        </div>
+      </div>
+
+      {!profileId ? (
+        <div>You aren't following anyone yet! Here is Patrick :)</div>
+      ) : (
+        <div></div>
+      )}
+
+      {!pubs ? (
         <p>Loading...</p>
       ) : (
         <PostFeed posts={pubs.data.publications.items} />
       )}
-    </div>
+    </main>
   );
 }

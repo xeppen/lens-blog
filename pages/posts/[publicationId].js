@@ -3,6 +3,7 @@ import {
   getPublication,
 } from "../../constants/lensConstants";
 import { useQuery } from "@apollo/client";
+import ReactMarkdown from "react-markdown";
 import PostContent from "../../components/PostContent";
 
 // Get some  possible paths

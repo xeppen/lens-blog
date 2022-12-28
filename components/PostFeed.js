@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function PostFeed({ posts }) {
   return (
-    <div>
+    <div className="p-2">
       {posts
         ? posts.map((post) => <PostItem post={post} key={post.id} />)
         : null}
@@ -11,15 +11,24 @@ export default function PostFeed({ posts }) {
 }
 
 function PostItem({ post }) {
-  let imageUrl;
+  let imageURL;
+
+  // Use the gateway for IPFS
   if (post.metadata.image) {
-    imageUrl = post.metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/");
+    imageURL = post.metadata.image.replace("ipfs://", "https://ipfs.io/ipfs/");
   }
+
   return (
-    <div>
+    <div className="flex justify-center p-2">
       <Link href={`/posts/${post.id}`}>
-        <img src={imageUrl} />
-        <h2>{post.metadata.name}</h2>
+        <div className="rounded-lg shadow-lg bg-white max-w-sm">
+          <img className="rounded-t-lg" src={imageURL} alt="" />
+          <div className="p-6">
+            <h5 className="text-gray-900 text-xl font-medium mb-2">
+              {post.metadata.name}
+            </h5>
+          </div>
+        </div>
       </Link>
     </div>
   );

@@ -48,7 +48,6 @@ export function LensProvider({ children }) {
       } = authData;
 
       setToken(accessToken);
-      console.log("Signed in successfully: ", accessToken);
     } catch (err) {
       console.log("Error signing in: ", err);
     }
@@ -72,11 +71,9 @@ export function LensProvider({ children }) {
   useEffect(() => {
     const readToken = window.localStorage.getItem("lensToken");
     if (readToken) {
-      console.log("readToken: ", readToken);
       setToken(readToken);
     }
     if (account && !token && !readToken) {
-      console.log("signing in: ", account);
       signIn();
     }
     if (!account) {
