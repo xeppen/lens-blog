@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function PostFeed({ posts }) {
   return (
     <div>
@@ -15,8 +17,10 @@ function PostItem({ post }) {
   }
   return (
     <div>
-      <img src={imageUrl} />
-      <h2>{post.metadata.name}</h2>
+      <Link href={`/posts/${post.id}`}>
+        <img src={imageUrl} />
+        <h2>{post.metadata.name}</h2>
+      </Link>
     </div>
   );
 }

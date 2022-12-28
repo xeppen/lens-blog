@@ -48,12 +48,10 @@ export default function Home() {
   return (
     <div>
       <div>Our Decentralized Blog!</div>
-      {!pubs ? (
-        <div>Loading...</div>
+      {!pubs.data ? (
+        <p>Loading...</p>
       ) : (
-        <div>
-          <PostFeed posts={pubs.data.publications.items}></PostFeed>
-        </div>
+        <PostFeed posts={pubs.data.publications.items} />
       )}
     </div>
   );
